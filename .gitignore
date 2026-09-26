@@ -11,3 +11,4 @@ dist/
 .vscode/
 debug_video/
 __temp__.mp4
+exp_logs/
