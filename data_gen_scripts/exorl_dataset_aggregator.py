@@ -60,8 +60,8 @@ class OfflineDatasetAggregator:
         (eps_fns, tasks, relabel) = args
         
         envs = dict()
-        for task in tasks:
-            envs['_'.join(task.split('_')[1:])] = exorl_utils.make_env(task)
+        for task_name in tasks:
+            envs[task_name] = exorl_utils.make_env(self._domain_name + '_' + task_name)
 
         dataset = defaultdict(list)
         if relabel:
@@ -112,8 +112,7 @@ class OfflineDatasetAggregator:
 
         split_size = int(np.ceil(len(eps_fns) / self._num_workers))
         worker_args = [(eps_fns[i:i + split_size], 
-                        [self._domain_name + '_' + task 
-                         for task in exorl_utils.ALL_TASKS[self._domain_name]], 
+                        list(exorl_utils.ALL_TASKS[self._domain_name]), 
                        self._relabel_reward) 
                        for i in range(0, len(eps_fns), split_size)]
         with mp.Pool(processes=self._num_workers, initializer=self._worker_init_fn) as pool:

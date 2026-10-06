@@ -326,7 +326,7 @@ def make_env_and_datasets(
     assert len(splits) >= 2
     if len(splits) == 2:
         domain_name = dataset_name.split('-')[-1]
-        task_name = 'walk' if domain_name != 'jaco' else 'reach_bottom_left'
+        task_name = 'walk' if 'walk' in ALL_TASKS.get(domain_name, []) else ALL_TASKS[domain_name][0]
         env_name = '-'.join([domain_name, task_name])
     else:
         dataset_name = '-'.join(splits[:2])
